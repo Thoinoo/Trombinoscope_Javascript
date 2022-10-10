@@ -2,23 +2,41 @@
 import * as ressources from './ressources.module.js';
 
 
+const main = document.getElementById('main');
 
-function loadStudents() {
-    fetch('./etudiants.json')
-        .then(data => data.json())
-        .then(
-            results => load_students_via_api(results.students)
-        )
+load();
+
+
+async function load_json_file() {
+
+        let result = await fetch('./etudiants.json');
+        let jsonData = await result.json();
+        let promise = await load_students_via_api(jsonData.students)
+        console.log('avant terminé');
+  }
+
+async function load(){
+    main.style.visibility = 'hidden';
+    var result = await load_json_file();
+    
+    main.style.visibility = 'visible';
+    console.log('terminé');
 }
-    function load_students_via_api(students) {
-        students.forEach(student => {
-            fetch('https://api.github.com/users/' + student, {
+
+
+
+     async function load_students_via_api(students) {
+        console.log('load_students_via_api')
+        for (let student of students){
+            let result = await fetch('https://api.github.com/users/' + student, {
                 headers: new Headers({ "Authorization": "Bearer " + ressources.token })
-            })
-                .then(data => data.json())
-                .then(results => addDiv(results))
-                .catch(error => alert("que tout le monde garde son calme !"))
-        });
+            });
+            let jsonData = await result.json();
+            addDiv(jsonData);
+
+        }
+        
+        
   
     }
     
@@ -26,7 +44,8 @@ function loadStudents() {
     
     
     
-    function addDiv(student) {
+     async function addDiv(student) {
+        console.log('addDiv');
     
         let d = document.createElement('div');
         d.id = student.id;
@@ -41,10 +60,15 @@ function loadStudents() {
         nom.href = student.html_url;
         nom.className = 'pseudo';
         nom.classList.add('overUnderLined','letterSpace5');
+
+
+        let avatar_url_link = document.createElement('a');
+        entete.appendChild(avatar_url_link);
+        avatar_url_link.href = student.html_url;
     
         let avatar_url = document.createElement('img');
         avatar_url.src = student.avatar_url;
-        entete.appendChild(avatar_url);
+        avatar_url_link.appendChild(avatar_url);
     
         let public_repos = document.createElement('p');
         d.appendChild(public_repos);
@@ -62,25 +86,28 @@ function loadStudents() {
         }else{
             bio.innerHTML = "Bio : " + student.bio;
         }
+
+
+        d.className = "case";
+        document.getElementById("main").appendChild(d);
         
     
     
-        fetch('https://api.github.com/users/' + student.login + '/followers', {
+        let result_followers = await fetch('https://api.github.com/users/' + student.login + '/followers', {
             headers: new Headers({ "Authorization": "Bearer " + ressources.token })
-        })
-            .then(data => data.json())
-            .then(data => generateFollowers( data, student.id))
-    
-        fetch('https://api.github.com/users/' + student.login + '/repos', {
+        });
+        let jsonData_followers = await result_followers.json();
+        generateFollowers(jsonData_followers, student.id);
+        
+
+        let result_repos = await fetch('https://api.github.com/users/' + student.login + '/repos', {
             headers: new Headers({ "Authorization": "Bearer " + ressources.token })
-        })
-            .then(data => data.json())
-            .then(data => generateRepos( data, student.id))
+        });
+        let jsonData_repos = await result_repos.json();
+        generateRepos(jsonData_repos, student.id);
     
     
-    
-        d.className = "case";
-        document.getElementById("main").appendChild(d);
+        
     
     
     }
@@ -110,7 +137,7 @@ function loadStudents() {
         }
     }
     
-    function generateRepos(repos, id) {
+    async function generateRepos(repos, id) {
         
         
        
@@ -164,5 +191,15 @@ function loadStudents() {
         return list;
     }
     
+ 
+
+function loadStudents() {
+
+       
+}
+
+
+
+
+
     
-    loadStudents();
