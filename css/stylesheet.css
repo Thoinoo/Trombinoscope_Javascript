@@ -37,7 +37,14 @@ html {
     letter-spacing: 5px;
 }
 
+button {
+    padding: 1rem;
+    background-color: black;
+    border: 1px solid grey;
+    color: white;
 
+    border-radius: 5px;
+}
 
 a {
     text-decoration: none;
