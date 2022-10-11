@@ -1,4 +1,4 @@
-html{
+html {
     font-family: 'Manrope', sans-serif;
     color: white;
 }
@@ -19,24 +19,38 @@ html{
 
 }
 
-.letterSpace5{
+.loading {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.loading_label {
+    font-size: 3rem;
+}
+
+.letterSpace5 {
     letter-spacing: 5px;
 }
 
 
 
-a{
+a {
     text-decoration: none;
     color: white;
 
     transition: 0.5s;
 }
 
-a:hover{
-    text-decoration-color: #FFFFFF00 ;
+a:hover {
+    text-decoration-color: #FFFFFF00;
 }
 
-body{
+body {
 
 
     background-color: black;
@@ -44,11 +58,11 @@ body{
 
 
 
-.follower{
+.follower {
     margin: 0.3rem;
 }
 
-.flexColumnCenter{
+.flexColumnCenter {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,14 +70,14 @@ body{
     width: 100%;
 }
 
-.dottedUnderline{
+.dottedUnderline {
     text-decoration: underline dotted white 1px;
     text-underline-offset: 4px;
 }
 
-.overUnderLined{
-    border-top: 5px double white ;
-    border-bottom: 5px double white ;
+.overUnderLined {
+    border-top: 5px double white;
+    border-bottom: 5px double white;
     padding: 0.2rem;
 }
 
@@ -85,7 +99,7 @@ img {
     flex-wrap: wrap;
 }
 
-.pseudo{
+.pseudo {
     font-size: 2rem;
     font-weight: bold;
 }
